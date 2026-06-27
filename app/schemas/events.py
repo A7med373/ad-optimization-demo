@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ClickIn(BaseModel):
@@ -29,3 +29,4 @@ class AttributionOut(BaseModel):
     confidence: float
     strategy: str = "heuristic_v1"
 
+    model_config = ConfigDict(from_attributes=True)
