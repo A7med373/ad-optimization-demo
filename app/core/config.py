@@ -7,10 +7,8 @@ class Settings(BaseSettings):
     app_name: str = "Ad Optimization Demo"
     environment: str = "local"
     database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/ad_optimization"
-    redis_url: str = "redis://localhost:6379/0"
-    kafka_bootstrap_servers: str = "localhost:29092"
-    kafka_topic_clicks: str = "ad.clicks"
-    kafka_topic_orders: str = "marketplace.orders"
+    telegram_bot_token: str = "demo-telegram-bot-token"
+    telegram_admin_chat_id: int = 123456789
     attribution_window_hours: int = 72
     match_threshold: float = 0.60
     yandex_metrika_counter_id: str = "demo-counter"
@@ -22,4 +20,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-

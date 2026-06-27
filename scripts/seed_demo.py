@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta, timezone
 
 from app.db.session import SessionLocal, init_db
+from app.models.attribution import Attribution
 from app.models.click import AdClick
 from app.models.order import MarketplaceOrder
+from app.services.matching import find_best_click
 
 
 def main() -> None:
@@ -54,10 +56,19 @@ def main() -> None:
 
     db.add_all(clicks + orders)
     db.commit()
+
+    for order in orders:
+        match = find_best_click(order, clicks)
+        if match is None:
+            continue
+
+        click, confidence = match
+        db.add(Attribution(order_id=order.order_id, click_id=click.click_id, confidence=confidence))
+
+    db.commit()
     db.close()
     print("Seeded demo clicks and orders")
 
 
 if __name__ == "__main__":
     main()
-

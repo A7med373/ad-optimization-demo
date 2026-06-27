@@ -4,6 +4,8 @@
 
 Проект показывает, как можно связать клики из рекламных систем с заказами маркетплейсов, посчитать confidence attribution match и подготовить offline conversions для отправки в аналитику.
 
+Основное управление в этой версии идет через Telegram-бота.
+
 > Это showcase-проект: внутри нет клиентских данных, реальных токенов, коммерческих метрик и production-секретов.
 
 ![Демо-дашборд атрибуции](docs/assets/dashboard.svg)
@@ -13,8 +15,7 @@
 - Принимает события рекламных кликов.
 - Принимает заказы из marketplace-like источников.
 - Сохраняет события в PostgreSQL.
-- Запускает фоновые задачи матчинга через Celery и Redis.
-- Поддерживает ingestion через Kafka topics.
+- Управляет пересчетом матчинга через Telegram-бота.
 - Считает confidence score по времени, товару, региону и user hash.
 - Готовит offline conversions для отправки в Yandex Metrika-подобный adapter.
 - Демонстрирует инфраструктуру через Docker Compose.
@@ -25,10 +26,10 @@
 
 Основной поток:
 
-1. `FastAPI` принимает клики и заказы через REST API.
-2. `Kafka consumer` может принимать те же события из topics `ad.clicks` и `marketplace.orders`.
+1. `Telegram bot` используется для операторских команд: статус, пересчет, проверка результата.
+2. `FastAPI` принимает клики и заказы через REST API.
 3. `PostgreSQL` хранит клики, заказы и рассчитанные связи.
-4. `Celery worker` периодически ищет лучший рекламный клик для каждого заказа.
+4. `Matching engine` считает confidence и связывает заказ с лучшим кликом.
 5. `Metrika adapter` имитирует экспорт offline conversions.
 
 ## Стек
@@ -37,9 +38,7 @@
 - `FastAPI`
 - `PostgreSQL`
 - `SQLAlchemy`
-- `Celery`
-- `Redis`
-- `Kafka`
+- `Telegram Bot`
 - `Docker Compose`
 - `Pytest`
 
@@ -74,6 +73,8 @@ cp .env.example .env
 docker compose up --build
 ```
 
+Для `bot`-сервиса нужно подставить реальный `TELEGRAM_BOT_TOKEN` и `TELEGRAM_ADMIN_CHAT_ID`.
+
 API будет доступен на:
 
 ```text
@@ -92,7 +93,6 @@ http://localhost:8000/docs
 
 ```bash
 docker compose exec api python scripts/seed_demo.py
-docker compose exec worker celery -A app.workers.tasks.celery_app call app.workers.tasks.attribute_pending_orders
 ```
 
 Проверить результат:
@@ -140,13 +140,12 @@ curl -X POST http://localhost:8000/api/events/orders \
 ```text
 app/
   api/          REST endpoints
+  bot.py        Telegram operator bot
   core/         settings
   db/           SQLAlchemy session
-  events/       Kafka consumer
   models/       database models
   schemas/      Pydantic schemas
   services/     matching and export adapters
-  workers/      Celery tasks
 docs/assets/    README visuals
 scripts/        demo data scripts
 tests/          matching tests
@@ -158,8 +157,7 @@ tests/          matching tests
 
 - Idempotency для кликов, заказов и экспорта конверсий.
 - Advisory locks или distributed locks для batch sync.
-- Rate limiting и retry policy для внешних API.
-- Dead-letter queue для событий, которые не прошли валидацию.
+- Rate limiting и retry policy для внешних API и Telegram Bot API.
 - Отдельный audit log для отправленных offline conversions.
 - Метрики по lag, match rate, confidence distribution и export errors.
 - Разделение demo config и production secrets через secret manager.

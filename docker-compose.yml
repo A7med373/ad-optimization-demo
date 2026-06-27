@@ -6,32 +6,13 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
-      - redis
-      - kafka
 
-  worker:
+  bot:
     build: .
     env_file: .env.example
-    command: celery -A app.workers.tasks.celery_app worker --loglevel=info
+    command: python -m app.bot
     depends_on:
       - postgres
-      - redis
-
-  scheduler:
-    build: .
-    env_file: .env.example
-    command: celery -A app.workers.tasks.celery_app beat --loglevel=info
-    depends_on:
-      - postgres
-      - redis
-
-  kafka-consumer:
-    build: .
-    env_file: .env.example
-    command: python -m app.events.kafka_consumer
-    depends_on:
-      - api
-      - kafka
 
   postgres:
     image: postgres:16-alpine
@@ -44,30 +25,5 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.6.1
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-
-  kafka:
-    image: confluentinc/cp-kafka:7.6.1
-    depends_on:
-      - zookeeper
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
 volumes:
   postgres-data:
-
