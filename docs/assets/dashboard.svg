@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-label="Демо-дашборд атрибуции">
+  <rect width="1120" height="620" fill="#0f172a"/>
+  <rect x="28" y="28" width="1064" height="564" rx="18" fill="#111827" stroke="#334155"/>
+  <text x="60" y="78" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#f8fafc">Conversion Attribution Monitor</text>
+  <text x="60" y="106" font-family="Arial, sans-serif" font-size="14" fill="#94a3b8">demo data · no client metrics · infrastructure showcase</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="60" y="142" width="220" height="108" rx="12" fill="#1f2937" stroke="#374151"/>
+    <text x="84" y="178" font-size="13" fill="#94a3b8">events / hour</text>
+    <text x="84" y="218" font-size="36" font-weight="700" fill="#38bdf8">12k</text>
+
+    <rect x="312" y="142" width="220" height="108" rx="12" fill="#1f2937" stroke="#374151"/>
+    <text x="336" y="178" font-size="13" fill="#94a3b8">matched orders</text>
+    <text x="336" y="218" font-size="36" font-weight="700" fill="#34d399">78%</text>
+
+    <rect x="564" y="142" width="220" height="108" rx="12" fill="#1f2937" stroke="#374151"/>
+    <text x="588" y="178" font-size="13" fill="#94a3b8">avg confidence</text>
+    <text x="588" y="218" font-size="36" font-weight="700" fill="#facc15">0.83</text>
+
+    <rect x="816" y="142" width="220" height="108" rx="12" fill="#1f2937" stroke="#374151"/>
+    <text x="840" y="178" font-size="13" fill="#94a3b8">export queue</text>
+    <text x="840" y="218" font-size="36" font-weight="700" fill="#fb7185">42</text>
+
+    <rect x="60" y="286" width="626" height="246" rx="12" fill="#1f2937" stroke="#374151"/>
+    <text x="84" y="326" font-size="16" font-weight="700" fill="#f8fafc">Attribution flow</text>
+    <polyline points="98,478 180,432 260,450 340,382 420,402 500,350 624,368" fill="none" stroke="#38bdf8" stroke-width="4"/>
+    <polyline points="98,500 180,490 260,466 340,454 420,430 500,408 624,388" fill="none" stroke="#34d399" stroke-width="4"/>
+    <line x1="98" y1="490" x2="624" y2="490" stroke="#475569"/>
+    <line x1="98" y1="350" x2="98" y2="490" stroke="#475569"/>
+    <text x="520" y="326" font-size="12" fill="#94a3b8">clicks</text>
+    <rect x="500" y="317" width="14" height="4" fill="#38bdf8"/>
+    <text x="594" y="326" font-size="12" fill="#94a3b8">orders</text>
+    <rect x="574" y="317" width="14" height="4" fill="#34d399"/>
+
+    <rect x="720" y="286" width="316" height="246" rx="12" fill="#1f2937" stroke="#374151"/>
+    <text x="744" y="326" font-size="16" font-weight="700" fill="#f8fafc">Recent matches</text>
+    <text x="744" y="366" font-size="13" fill="#94a3b8">wb-order-demo-001</text>
+    <text x="944" y="366" font-size="13" fill="#34d399">0.94</text>
+    <line x1="744" y1="384" x2="1010" y2="384" stroke="#334155"/>
+    <text x="744" y="416" font-size="13" fill="#94a3b8">ozon-order-demo-002</text>
+    <text x="944" y="416" font-size="13" fill="#34d399">0.89</text>
+    <line x1="744" y1="434" x2="1010" y2="434" stroke="#334155"/>
+    <text x="744" y="466" font-size="13" fill="#94a3b8">wb-order-demo-003</text>
+    <text x="944" y="466" font-size="13" fill="#facc15">0.66</text>
+  </g>
+</svg>
+
